@@ -2,8 +2,9 @@ package org.jboss.windup.qs.rules;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.inject.Singleton;
-import org.jboss.windup.config.RulePhase;
+
 import org.jboss.windup.config.WindupRuleProvider;
 import org.jboss.windup.config.metadata.RuleMetadata;
 import org.jboss.windup.config.operation.Iteration;
@@ -23,21 +24,18 @@ import org.ocpsoft.rewrite.config.ConfigurationBuilder;
  */
 @Singleton
 public class MyHintsRuleProvider extends WindupRuleProvider {
-
-    @Override
-    public RulePhase getPhase()
-    {
-        return RulePhase.MIGRATION_RULES;
-    }
-
-
     @Override
     public List<Class<? extends WindupRuleProvider>> getExecuteAfter()
     {
-        return Collections.EMPTY_LIST;
-        // This would result in " Rules must only depend on other rules from within the same phase."
-        // But can serve as an example.
-        //return generateDependencies(AnalyzeJavaFilesRuleProvider.class);
+        return Collections.emptyList();
+        // Returning a value here will cause the Rules from this provider to execute after the rules
+        //  from the providers in the list. 
+        //
+        // The following example specifies that this provider's rules should execute after the rules 
+        // in AnalyzeJavaFilesRuleProvider. This is technically unnecessary, as the rules in 
+        // are set to execute in an earlier phase, but is here only to demonstrate the concept.
+        //
+        // return asClassList(AnalyzeJavaFilesRuleProvider.class);
     }
 
 
