@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss.windup</groupId>
+        <artifactId>windup-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.jboss.windup.quickstarts</groupId>
+    <artifactId>jboss-windup-quickstart-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Windup Quickstart: Parent</name>
+    <description>Windup Quickstarts Parent</description>
+
+    <properties>
+        <version.jboss.maven.plugin>7.4.Final</version.jboss.maven.plugin>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- The JBoss AS plugin deploys your apps to a local JBoss EAP container -->
+            <!-- Disabling it here means that we don't try to deploy this POM! -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>${version.jboss.maven.plugin}</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <profiles>
+        <profile>
+            <!-- All the modules that require nothing but JBoss Enterprise
+                    Application Platform or JBoss EAP -->
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>default</name>
+                    <value>!disabled</value>
+                </property>
+            </activation>
+            <modules>
+               <module>javaee-WLServlet</module>
+            </modules>
+        </profile>
+     </profiles>
+</project>
