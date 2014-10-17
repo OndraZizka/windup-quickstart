@@ -1,5 +1,7 @@
 package org.jboss.windup.qs.rules;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -68,13 +70,8 @@ public class MyJavaHintsTest
     {
         try(GraphContext context = contextFactory.create())
         {
-            FileModel inputPath = context.getFramed().addVertex(null, FileModel.class);
-            inputPath.setFilePath("src/test/java/org/jboss/windup/qs/rules");
             FileModel fileModel = context.getFramed().addVertex(null, FileModel.class);
             fileModel.setFilePath("src/test/java/org/jboss/windup/qs/rules/MyJavaHintsTest.java");
-
-            WindupConfigurationModel config = WindupConfigurationService.getConfigurationModel(context);
-            config.setInputPath(inputPath);
 
             WindupJavaConfigurationModel javaCfg = WindupJavaConfigurationService.getJavaConfigurationModel(context);
             javaCfg.setSourceMode(true);
@@ -82,6 +79,9 @@ public class MyJavaHintsTest
             WindupConfiguration wc = new WindupConfiguration();
             wc.setGraphContext(context);
             wc.setRuleProviderFilter(new RuleProviderWithDependenciesPredicate(MyHintsRuleProvider.class));
+            wc.setInputPath(Paths.get("src/test/java/"));
+            wc.setOutputDirectory(Paths.get("target/WindupReport"));
+
             processor.execute(wc);
 
 
